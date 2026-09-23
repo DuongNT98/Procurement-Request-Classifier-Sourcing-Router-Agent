@@ -1,0 +1,46 @@
+[project]
+name = "cmn-c2-213"
+version = "0.1.0"
+description = "Procurement Request Classifier & Sourcing Router Agent — AgentCore Template"
+requires-python = ">=3.11"
+# The framework (agenticstar-agentcore) is NOT a public-PyPI dependency; it is
+# provided by CI per repo arm — a local stub package on PYTHONPATH for
+# stub-era repos, or installed from the package registry for wheel-era repos
+# (see the dual-mode test job in the CI pipeline config). Pinning it here
+# would make `pip install -e .` fail because it is not resolvable from the
+# default index.
+dependencies = [
+    "agenticstar-agentcore[marketplace,openai]==1.0.3",]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.1.1",
+    "pytest-cov==5.0.0",
+    "pytest-asyncio==0.23.6",
+    "ruff==0.4.4",
+    "mypy==1.10.0",
+]
+
+[build-system]
+requires = ["setuptools==68.0.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+
+[[tool.mypy.overrides]]
+# agenticstar-agentcore ships no py.typed marker (PEP 561) yet — request:coe filed
+# for the SDK-side fix. Every framework/shared import is untyped until then.
+module = ["framework.*", "shared.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# Every node/graph subclasses an Any-typed framework base class (see override
+# above), so strict mode's subclass check has no real signal to give here.
+module = "src.*"
+disallow_subclassing_any = false

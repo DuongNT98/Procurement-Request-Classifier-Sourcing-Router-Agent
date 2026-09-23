@@ -1,0 +1,30 @@
+# CMN-C2-213 spend taxonomy (citizen-editable)
+# Mirrors src/services/service.py DEFAULT_SPEND_CATEGORIES. Edit per industry to
+# produce a variant. First category whose keywords appear in the request wins;
+# requests matching none fall back to "other".
+
+spend_categories:
+  - category: office_supplies
+    catalog_eligible: true
+    keywords: [chair, desk, paper, pen, stationery, supplies, printer, toner, furniture, notebook]
+  - category: it_software
+    catalog_eligible: false
+    keywords: [software, license, licence, saas, subscription, laptop, server, cloud, api, renewal]
+  - category: professional_services
+    catalog_eligible: false
+    keywords: [consulting, consultant, audit, legal, contractor, training, advisory]
+  - category: facilities
+    catalog_eligible: false
+    keywords: [cleaning, maintenance, hvac, repair, facility, lease, rent]
+  - category: logistics
+    catalog_eligible: false
+    keywords: [shipping, freight, courier, transport, warehouse, delivery]
+  - category: raw_materials
+    catalog_eligible: false
+    keywords: [steel, plastic, component, material, parts, resin]
+
+urgency:
+  high: [urgent, asap, immediately, critical, emergency, rush, today]
+  low: [whenever, no rush, low priority, eventually, someday]
+
+mandatory_fields: [item, amount, vendor]

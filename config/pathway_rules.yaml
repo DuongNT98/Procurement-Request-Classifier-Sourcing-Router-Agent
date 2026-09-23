@@ -1,0 +1,18 @@
+# CMN-C2-213 routing thresholds + pathway rules (citizen-editable)
+# Mirrors src/services/service.py DEFAULT_THRESHOLDS. Amounts are in the
+# request's own currency — set these per the deploying entity's currency/policy.
+
+thresholds:
+  catalog_max: 1000      # at/under, approved + catalog-eligible category -> catalog_order
+  spot_max: 5000         # at/under -> spot_buy
+  rfq_min: 50000         # at/over  -> rfq (competitive)
+  low_confidence: 0.6    # classification confidence under this -> manual_review
+
+# Rule order (most specific first), evaluated in RouteExplainNode:
+#   1. missing mandatory fields OR confidence < low_confidence -> manual_review
+#   2. active contract covers vendor+category+amount            -> contract_amendment
+#   3. approved supplier + catalog-eligible + amount <= catalog_max -> catalog_order
+#   4. amount >= rfq_min                                        -> rfq
+#   5. amount <= spot_max                                       -> spot_buy
+#   6. otherwise                                                -> rfq
+pathways: [catalog_order, spot_buy, rfq, contract_amendment, manual_review]

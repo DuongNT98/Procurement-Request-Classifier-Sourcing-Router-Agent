@@ -1,0 +1,5 @@
+# Runtime parameters — loaded by AgentRegistry and passed as Graph(config=...).
+# Static identity/manifest fields live in config/agent.yaml, not here (see the
+# framework's AgentRegistry manifest schema documentation).
+max_retry: 3
+memory_enabled: false
